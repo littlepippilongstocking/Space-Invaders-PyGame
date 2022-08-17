@@ -63,6 +63,12 @@ font = pygame.font.Font('freesansbold.ttf', 32)
 textX = 10
 textY = 10
 
+# Level
+level_value = 1
+level_font = pygame.font.Font('freesansbold.ttf', 32)
+levelX = 600
+levelY = 10
+
 # Game Over
 game_over = pygame.font.Font('freesansbold.ttf', 64)
 
@@ -75,6 +81,26 @@ def game_over_text():
 def show_score(x, y):
     score = font.render("Score: " + str(score_value), True, (255, 255, 255))
     screen.blit(score, (x, y))
+
+
+def show_level(x, y):
+    global score_value
+    if score_value <= 10:
+        level = level_font.render("Level " + str(1), True, (255, 255, 255))
+        screen.blit(level, (x, y))
+    elif 10 < score_value < 30:
+        level = level_font.render("Level " + str(2), True, (255, 255, 255))
+        screen.blit(level, (x, y))
+    elif (30) < score_value < 40:
+        level = level_font.render("Level " + str(3), True, (255, 255, 255))
+        screen.blit(level, (x, y))
+    elif 40 <= score_value < 50:
+        level = level_font.render("Level " + str(4), True, (255, 255, 255))
+        screen.blit(level, (x, y))
+    elif 50 <= score_value < 60:
+        level = level_font.render("Level " + str(5), True, (255, 255, 255))
+        screen.blit(level, (x, y))
+
 
 
 def player(x, y):
@@ -103,11 +129,12 @@ def isCollision(enemyX, enemyY, bulletX, bulletY):
 def play():
     player(playerX, playerY)
     show_score(textX, textY)
+    show_level(levelX, levelY)
     pygame.display.update()
 
 
 # Game Loop
-def main_loop():
+def game_loop():
     global score_value, playerX, playerY, playerX_change, \
         bulletY, bulletX, bullet_state, bulletY_change, bulletX_change
     isRunning = True
@@ -182,20 +209,21 @@ def main_loop():
         play()
 
 
-def main_menu():
+def main():
     title_font = pygame.font.SysFont("freesansbold.ttf", 60)
-    run = True
-    while run:
+    isRunning = True
+    while isRunning:
         screen.blit(background, (0, 0))
         title_label = title_font.render("Play", 1, (255, 255, 255))
         screen.blit(title_label, (350, 300))
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                isRunning = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                main_loop()
-    # pygame.quit()
+                game_loop()
+    pygame.quit()
 
 
-main_menu()
+if __name__ == "__main__":
+    main()
